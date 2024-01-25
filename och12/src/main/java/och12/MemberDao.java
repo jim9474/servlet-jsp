@@ -139,6 +139,23 @@ public class MemberDao {
 		return idchk.next();
 	}
 	
+	public int update(Member2 member) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		conn = getConnection();
+		String sql = "update member2 set passwd=?,name=?,address=?,tel=? where id=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, member.getPasswd());
+		pstmt.setString(2, member.getName());
+		pstmt.setString(3, member.getAddress());
+		pstmt.setString(4, member.getTel());
+		pstmt.setString(5, member.getId());
+		result = pstmt.executeUpdate();
+		if(result > 0) return 1;
+		else return 0;
+		
+	}
+	
 	public int delete(String id, String passwd) throws SQLException {
 		int result = 0;
 		Member2 m = new Member2();

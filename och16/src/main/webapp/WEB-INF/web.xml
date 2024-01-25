@@ -15,12 +15,13 @@
     <servlet-name>Controller</servlet-name>
     <servlet-class>control.Controller</servlet-class>
     <init-param>
-    	<param-name>config</param-name>
-    	<param-value>/WEB-INF/command.properties</param-value>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/command.properties</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>Controller</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  
 </web-app>
