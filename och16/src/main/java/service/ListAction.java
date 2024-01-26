@@ -19,6 +19,7 @@ public class ListAction implements CommandProcess {
 		
 		BoardDao bd = BoardDao.getInstance();
 		try {
+			
 		int totCnt = bd.getTotalCnt();	// 38
 		// 난잡 Paging
 		String pageNum = request.getParameter("pageNum");
