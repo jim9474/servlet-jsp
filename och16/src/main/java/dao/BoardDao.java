@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -253,35 +254,20 @@ public class BoardDao {
 
 	public int delete(int num, String passwd) throws SQLException {
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		CallableStatement cstmt = null;
 		int result = 0;
-		int ref = 0;
-		ResultSet rs = null;
-		String sel = "select ref from board where num=? and passwd=?";
-		String sql = "delete from board where ref=?";
 		try {
 			conn = getConnection();
-			// 지우려는 게시글의 ref뽑아오기
-			pstmt = conn.prepareStatement(sel);
-			pstmt.setInt(1, num);
-			pstmt.setString(2, passwd);
-			rs = pstmt.executeQuery();
-			if(rs.next()) ref = rs.getInt(1);
-			System.out.println("ref->"+ref);
-			rs.close();
-			pstmt.close();
-			
-			if(ref > 0) {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, ref);
-				result = pstmt.executeUpdate();
-			}
+			cstmt = conn.prepareCall("{call DeleteBoard(?,?)}");
+			cstmt.setInt(1, num);
+			cstmt.setString(2, passwd);
+			cstmt.execute();
+			result = 1;
 			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
-			if(rs != null) rs.close();
-			if(pstmt != null) pstmt.close();
+			if(cstmt != null) cstmt.close();
 			if(conn != null) conn.close();
 		}
 		return result;
